@@ -1,0 +1,33 @@
+{
+  "name": "tnb-discord-security-bot",
+  "version": "0.0.0",
+  "description": "Discord bot to scan all messages and identify signing keys and protect it",
+  "main": "./prod/index.js",
+  "scripts": {
+    "prebuild": "rm -rf ./prod",
+    "build": "tsc",
+    "dev": "ts-node-dev --watch --respawn --transpile-only ./src/index.ts",
+    "start": "node ./prod/index.js",
+    "start:local": "npm run build && node prod/index.js",
+    "start:watch": "nodemon",
+    "test": "echo 'No tests yet. Would you like to contribute some?'"
+  },
+  "author": "Avinash Upadhyaya",
+  "license": "MIT",
+  "keywords": [
+    "DiscordJS",
+    "Discord",
+    "bot",
+    "discord-bot"
+  ],
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "thenewboston": "^1.1.0-alpha.4"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.4",
+    "dotenv": "^10.0.0",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.3.4"
+  }
+}
