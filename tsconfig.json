@@ -6,6 +6,7 @@
     "outDir": "./prod",
     "strict": true,
     "esModuleInterop": true,
+    "lib": ["es2020.string"],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
