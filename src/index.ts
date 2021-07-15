@@ -4,6 +4,8 @@ import { createConnection } from 'typeorm';
 
 import * as dotenv from 'dotenv';
 import { checkSigningKey } from './account';
+import { Key } from './data/entities/key.entity';
+import { KeysRepository } from './database';
 dotenv.config();
 
 const client = new Client();
@@ -14,7 +16,7 @@ client.on('ready', () => {
 });
 
 client.on('message', async (message) => {
-    console.log(message.content);
+    console.log(message.author.id);
     const pattern = /[a-zA-Z0-9]{64}/g;
     let match = pattern.exec(message.content);
     while(match) {
@@ -24,20 +26,29 @@ client.on('message', async (message) => {
             
             if(newSigningKey) {
                 let reply: string = `
-                **Signing Key exposed**
+**Signing Key exposed**
 
-                A certain signing key was exposed in this message. **One should not be sharing their signing key with anyone**. Please **check your DM** for further details`;
-                message.author.send(`
-                Hello,
-                It looks like you accidentally pasted your TNB Wallet signing key on a Discord server. We have transferred all coins from the exposed account to a new account. Here's the signing key for your new account - \`${newSigningKey}\`
-                Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps on recovering your account using the signing key.
-                `).catch(async err => {
+A certain signing key was exposed in this message. **One should not be sharing their signing key with anyone**. Please **check your DM** for further details`;
+                try{
+                    await message.author.send(`
+                    Hello,
+                    It looks like you accidentally pasted your TNB Wallet signing key on a Discord server. We have transferred all coins from the exposed account to a new account. Here's the signing key for your new account - \`${newSigningKey}\`
+                    Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps on recovering your account using the signing key.
+                    `);
+                }
+                catch(err) {
                     console.log(err);
-                    reply = `**Signing Key exposed**
+                    reply = `
+**Signing Key exposed**
                     
-                    A certain signing key was exposed in this message. **One should not be sharing their signing key with anyone**. We could not reach you through your DM for providing your new signing key. Please enable DMs and use \`/recover_compromised_wallets\` to recover your account`
-                    // TODO: Store in database
-                });
+A certain signing key was exposed in this message. **One should not be sharing their signing key with anyone**. We could not reach you through your DM for providing your new signing key. Please enable DMs and use \`/recover_compromised_wallets\` to recover your account`
+                    // Store in database
+                    let keyObject: Key = new Key();
+                    keyObject.signingkey = newSigningKey;
+                    keyObject.userid = message.author.id;
+                    const keysRepository: KeysRepository = new KeysRepository();
+                    await keysRepository.insert(keyObject);
+                }
                 message.reply(reply);
                 // Stop checking if a signing key is already found
                 break;
