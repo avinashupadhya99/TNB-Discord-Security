@@ -10,6 +10,8 @@
     "start": "node ./prod/index.js",
     "start:local": "npm run build && node prod/index.js",
     "start:watch": "nodemon",
+    "migrations:gen": "ts-node ./node_modules/.bin/typeorm migration:generate",
+    "migrations:run": "ts-node ./node_modules/.bin/typeorm migration:run",
     "test": "echo 'No tests yet. Would you like to contribute some?'"
   },
   "author": "Avinash Upadhyaya",
@@ -22,7 +24,10 @@
   ],
   "dependencies": {
     "discord.js": "^12.5.3",
-    "thenewboston": "^1.1.0-alpha.4"
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.2",
+    "thenewboston": "^1.1.0-alpha.4",
+    "typeorm": "^0.2.34"
   },
   "devDependencies": {
     "@types/node": "^15.12.4",

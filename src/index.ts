@@ -1,4 +1,6 @@
 import { Client, Guild } from 'discord.js';
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
 
 import * as dotenv from 'dotenv';
 import { checkSigningKey } from './account';
@@ -50,4 +52,6 @@ client.on('message', async (message) => {
 });
 
 
-client.login(process.env.DISCORD_BOT_TOKEN);
+createConnection().then(async () => {
+    client.login(process.env.DISCORD_BOT_TOKEN);
+});
