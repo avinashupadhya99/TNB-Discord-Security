@@ -37,9 +37,9 @@ client.on('message', async (message) => {
 A certain signing key was exposed in this message. **One should not be sharing their signing key with anyone**. Please **check your DM** for further details`;
                 try{
                     await message.author.send(`
-                    Hello,
-                    It looks like you accidentally pasted your TNB Wallet signing key on a Discord server. We have transferred all coins from the exposed account to a new account. Here's the signing key for your new account - \`${newSigningKey}\`
-                    Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps on recovering your account using the signing key.
+Hello,
+It looks like you accidentally pasted your TNB Wallet signing key on a Discord server. We have transferred all coins from the exposed account to a new account. Here's the signing key for your new account - \`${newSigningKey}\`
+Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps on recovering your account using the signing key.
                     `);
                 }
                 catch(err) {
@@ -81,9 +81,32 @@ client.ws.on('INTERACTION_CREATE', async interaction => {
                 data: {
                     content: 'Use the command in DM to retreive your new signing key in case your wallet was compromised'
                 }
-            }})
+            }});
         } else {
             // TODO: Fetch signing key from db and send
+            const keysRepository: KeysRepository = new KeysRepository();
+            const keys: Key[] = await keysRepository.findByUserID(interaction.member.user.id);
+            if(keys.length > 0) {
+                // Join all signing keys to a string separated by commas if there are multiple
+                const keyString: string = keys.map(key => `\`${key.signingkey}\``).join(', ');
+                client.api.interactions(interaction.id, interaction.token).callback.post({data: {
+                    type: 4,
+                    data: {
+                        content: 
+`Hello,
+It looks like you accidentally pasted your TNB Wallet signing key(s) on a Discord server. We have transferred all coins from the exposed account(s) to new account(s). Here's the signing key(s) for your new account(s) - ${keyString}
+Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps on recovering your account using the signing key(s).`
+                    }
+                }});
+
+            } else {
+                client.api.interactions(interaction.id, interaction.token).callback.post({data: {
+                    type: 4,
+                    data: {
+                        content: 'No keys found for this user'
+                    }
+                }});
+            }
         }
     }
 })

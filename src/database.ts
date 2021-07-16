@@ -2,9 +2,9 @@ import { DeleteResult, getRepository, InsertResult, Repository } from 'typeorm';
 import { Key } from './data/entities/key.entity';
 
 export class KeysRepository  {
-    public async findByUserID(userID: string): Promise<Key | undefined> {
+    public async findByUserID(userID: string): Promise<Key[]> {
         const repository: Repository<Key> = getRepository(Key);
-        return repository.findOne({userid: userID});
+        return repository.find({userid: userID});
     }
 
     public async insert(key: Key): Promise<InsertResult> {
