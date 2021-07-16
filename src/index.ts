@@ -69,7 +69,8 @@ A certain signing key was exposed in this message. **One should not be sharing t
 });
 
 client.ws.on('INTERACTION_CREATE', async interaction => {
-    const command = interaction.data.name.toLowerCase();
+    const command: string = interaction.data.name.toLowerCase();
+    const userId: string = interaction?.user?.id ?? interaction?.member?.user?.id;
 
     console.log(interaction);
     if(command === 'recover_compromised_wallets') {
@@ -85,7 +86,7 @@ client.ws.on('INTERACTION_CREATE', async interaction => {
         } else {
             // TODO: Fetch signing key from db and send
             const keysRepository: KeysRepository = new KeysRepository();
-            const keys: Key[] = await keysRepository.findByUserID(interaction.member.user.id);
+            const keys: Key[] = await keysRepository.findByUserID(userId);
             if(keys.length > 0) {
                 // Join all signing keys to a string separated by commas if there are multiple
                 const keyString: string = keys.map(key => `\`${key.signingkey}\``).join(', ');
