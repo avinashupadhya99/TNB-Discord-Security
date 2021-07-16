@@ -8,11 +8,17 @@ import { Key } from './data/entities/key.entity';
 import { KeysRepository } from './database';
 dotenv.config();
 
-const client = new Client();
+const commands = [
+    require('./commands/recover_compromised_wallets').schema
+];
+
+const client: Client = new Client();
 
 client.on('ready', () => {
     console.log("Bot is alive");
-    client.guilds.cache.map((guild: Guild) => console.log(guild.id));
+    commands.forEach(command => {
+        client.api.applications(client.user.id).commands.post({data: command});
+    });
 });
 
 client.on('message', async (message) => {
@@ -61,6 +67,26 @@ A certain signing key was exposed in this message. **One should not be sharing t
         match = pattern.exec(message.content);
     }
 });
+
+client.ws.on('INTERACTION_CREATE', async interaction => {
+    const command = interaction.data.name.toLowerCase();
+
+    console.log(interaction);
+    if(command === 'recover_compromised_wallets') {
+        const channel = await client.channels.cache.get(interaction.channel_id);
+        // Channel exists only if used inside a server
+        if(channel) {
+            client.api.interactions(interaction.id, interaction.token).callback.post({data: {
+                type: 4,
+                data: {
+                    content: 'Use the command in DM to retreive your new signing key in case your wallet was compromised'
+                }
+            }})
+        } else {
+            // TODO: Fetch signing key from db and send
+        }
+    }
+})
 
 
 createConnection().then(async () => {
