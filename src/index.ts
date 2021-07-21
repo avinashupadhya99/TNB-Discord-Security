@@ -22,14 +22,11 @@ client.on('ready', () => {
 });
 
 client.on('message', async (message) => {
-    console.log(message.author.id);
     const pattern = /[a-zA-Z0-9]{64}/g;
     let match = pattern.exec(message.content);
     while(match) {
-        console.log(match[0]);
         try{
             const newSigningKey = await checkSigningKey(match[0]);
-            
             if(newSigningKey) {
                 let reply: string = `
 **Signing Key exposed**
@@ -72,7 +69,6 @@ client.ws.on('INTERACTION_CREATE', async interaction => {
     const command: string = interaction.data.name.toLowerCase();
     const userId: string = interaction?.user?.id ?? interaction?.member?.user?.id;
 
-    console.log(interaction);
     if(command === 'recover_compromised_wallets') {
         const channel = await client.channels.cache.get(interaction.channel_id);
         // Channel exists only if used inside a server

@@ -39,8 +39,6 @@ const transferCoins = async(account: Account, balance: number): Promise<string> 
     await paymentHandler.init();
 
     const newAccount: Account = new Account();
-    console.log(newAccount.accountNumberHex);
-    console.log(newAccount.signingKeyHex);
 
     const amount: number = balance - Number(process.env.TRANSACTION_FEES);
 
