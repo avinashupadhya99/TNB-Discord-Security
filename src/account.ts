@@ -1,8 +1,11 @@
-import { Account, AccountPaymentHandler, PrimaryValidator, ConfirmationValidator } from "thenewboston";
+import * as dotenv from 'dotenv';
+dotenv.config();
+import { Account, AccountPaymentHandler, PrimaryValidator } from "thenewboston";
 
-const primaryValidator = new PrimaryValidator(process.env.PRIMARY_VALIDATOR || 'http://54.219.183.128');
-const confirmationValidator = new ConfirmationValidator(process.env.CONFIRMATION_VALIDATOR || 'http://3.101.33.24');
-const bankUrl = process.env.BANK_URL || 'http://13.233.77.254';
+const primaryValidatorURL: string = process.env.PRIMARY_VALIDATOR!;
+const bankUrl: string = process.env.BANK_URL!;
+
+const primaryValidator = new PrimaryValidator(primaryValidatorURL);
 
 export const checkSigningKey = async (key: string): Promise<string> => {
     // Create account with the "signing key"
