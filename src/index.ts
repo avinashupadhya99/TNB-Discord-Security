@@ -71,15 +71,16 @@ client.ws.on('INTERACTION_CREATE', async interaction => {
 
     if(command === 'recover_compromised_wallets') {
         const channel = await client.channels.cache.get(interaction.channel_id);
-        // Channel exists only if used inside a server
-        if(channel) {
+        if(!channel) {
+            console.log(interaction);
             client.api.interactions(interaction.id, interaction.token).callback.post({data: {
                 type: 4,
                 data: {
-                    content: 'Use the command in DM to retreive your new signing key in case your wallet was compromised'
+                    content: 'Something went wrong! Please try again later'
                 }
             }});
-        } else {
+        }
+        if(channel && channel.type === 'dm') {
             const keysRepository: KeysRepository = new KeysRepository();
             const keys: Key[] = await keysRepository.findByUserID(userId);
             if(keys.length > 0) {
@@ -110,6 +111,13 @@ Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps o
                     }
                 }});
             }
+        } else {
+            client.api.interactions(interaction.id, interaction.token).callback.post({data: {
+                type: 4,
+                data: {
+                    content: 'Use the command in DM to retreive your new signing key in case your wallet was compromised'
+                }
+            }});
         }
     }
 })
