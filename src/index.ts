@@ -7,18 +7,29 @@ import { checkSigningKey } from './account';
 import { Key } from './data/entities/key.entity';
 import { KeysRepository } from './database';
 dotenv.config();
+import { RecoverCompromisedWallets } from './commands/recover_compromised_wallets';
 
 const commands = [
-    require('./commands/recover_compromised_wallets').schema
+    RecoverCompromisedWallets.schema
 ];
 
 const client: Client = new Client();
 
-client.on('ready', () => {
+client.on('ready', async () => {
     console.log("Bot is alive");
-    commands.forEach(command => {
-        client.api.applications(client.user.id).commands.post({data: command});
+    // @ts-ignore
+    const globalCmds = await client.api.applications(client.user.id).commands().get();
+    globalCmds.forEach(async (command: any) => {
+        // @ts-ignore
+        await client.api.applications(client.user.id).commands(command.id).delete();
     });
+    // @ts-ignore
+    const cmds = await client.api.applications(client.user.id).commands().get();
+    console.log(cmds);
+    commands.forEach(command => {
+        // @ts-ignore
+        client.api.applications(client.user.id).commands.post({data: command});
+    }); 
 });
 
 client.on('message', async (message) => {
@@ -70,7 +81,7 @@ client.ws.on('INTERACTION_CREATE', async interaction => {
     const command: string = interaction.data.name.toLowerCase();
 
     if(command === 'recover_compromised_wallets') {
-        require('./commands/recover_compromised_wallets').callback(client, interaction);
+        RecoverCompromisedWallets.callback(client, interaction);
     }
 })
 
