@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Discord bot to scan all messages and identify signing keys and protect it",
   "main": "./prod/index.js",
+  "type": "module",
   "scripts": {
     "prebuild": "rm -rf ./prod",
     "build": "tsc",
