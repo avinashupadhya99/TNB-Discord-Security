@@ -12,6 +12,7 @@ module.exports.callback = async (client: Client, interaction: any, ) => {
     const channel = await client.channels.cache.get(interaction.channel_id);
         if(!channel) {
             console.log(interaction);
+            // @ts-ignore
             client.api.interactions(interaction.id, interaction.token).callback.post({data: {
                 type: 4,
                 data: {
@@ -26,6 +27,7 @@ module.exports.callback = async (client: Client, interaction: any, ) => {
                 // Join all signing keys to a string separated by commas if there are multiple
                 const keyString: string = keys.map(key => `\`${key.signingkey}\``).join(', ');
                 try{
+                    // @ts-ignore
                     await client.api.interactions(interaction.id, interaction.token).callback.post({data: {
                         type: 4,
                         data: {
@@ -43,6 +45,7 @@ Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps o
                 }
 
             } else {
+                // @ts-ignore
                 client.api.interactions(interaction.id, interaction.token).callback.post({data: {
                     type: 4,
                     data: {
@@ -51,6 +54,7 @@ Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps o
                 }});
             }
         } else {
+            // @ts-ignore
             client.api.interactions(interaction.id, interaction.token).callback.post({data: {
                 type: 4,
                 data: {

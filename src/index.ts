@@ -65,6 +65,7 @@ A certain signing key was exposed in this message. **One should not be sharing t
     }
 });
 
+// @ts-ignore
 client.ws.on('INTERACTION_CREATE', async interaction => {
     const command: string = interaction.data.name.toLowerCase();
 
