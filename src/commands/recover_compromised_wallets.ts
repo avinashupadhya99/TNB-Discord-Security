@@ -21,7 +21,7 @@ export class RecoverCompromisedWallets {
                     }
                 }});
             }
-            if(channel && channel.type === 'dm') {
+            if(channel && channel.type === 'DM') {
                 const keysRepository: KeysRepository = new KeysRepository();
                 const keys: Key[] = await keysRepository.findByUserID(userId);
                 if(keys.length > 0) {
@@ -32,7 +32,7 @@ export class RecoverCompromisedWallets {
                         await client.api.interactions(interaction.id, interaction.token).callback.post({data: {
                             type: 4,
                             data: {
-                                content: 
+                                content:
 `Hello,
 It looks like you accidentally pasted your TNB Wallet signing key(s) on a Discord server. We have transferred all coins from the exposed account(s) to new account(s). Here's the signing key(s) for your new account(s) - ${keyString}
 Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps on recovering your account using the signing key(s).`

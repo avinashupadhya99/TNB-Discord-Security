@@ -13,7 +13,7 @@ const commands = [
     RecoverCompromisedWallets.schema
 ];
 
-const client: Client = new Client();
+const client: Client = new Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 
 client.on('ready', async () => {
     console.log("Bot is alive");
@@ -29,7 +29,7 @@ client.on('ready', async () => {
     commands.forEach(command => {
         // @ts-ignore
         client.api.applications(client.user.id).commands.post({data: command});
-    }); 
+    });
 });
 
 client.on('message', async (message) => {

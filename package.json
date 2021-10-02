@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "description": "Discord bot to scan all messages and identify signing keys and protect it",
   "main": "./prod/index.js",
-  "type": "module",
   "scripts": {
     "prebuild": "rm -rf ./prod",
     "build": "tsc",
@@ -13,7 +12,8 @@
     "start:watch": "nodemon",
     "migrations:gen": "ts-node ./node_modules/.bin/typeorm migration:generate",
     "migrations:run": "ts-node ./node_modules/.bin/typeorm migration:run",
-    "test": "echo 'No tests yet. Would you like to contribute some?'"
+    "test": "echo 'No tests yet. Would you like to contribute some?'",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "author": "Avinash Upadhyaya",
   "license": "MIT",
@@ -24,16 +24,23 @@
     "discord-bot"
   ],
   "dependencies": {
-    "discord.js": "^12.5.3",
-    "reflect-metadata": "^0.1.13",
+    "@types/node": "^14.14.6",
+    "@types/uuid": "^8.3.0",
+    "@types/ws": "^7.2.7",
+    "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
+    "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
     "thenewboston": "^1.1.0-alpha.4",
-    "typeorm": "^0.2.34"
+    "ts-node": "^10.2.1",
+    "typeorm": "^0.2.37",
+    "uuid": "^8.3.1"
+  },
+  "engines": {
+    "node": ">=16.6.0",
+    "npm": ">=7.0.0"
   },
   "devDependencies": {
-    "@types/node": "^15.12.4",
-    "dotenv": "^10.0.0",
-    "ts-node-dev": "^1.1.6",
-    "typescript": "^4.3.4"
+    "typescript": "^4.4.3"
   }
 }
