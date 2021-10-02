@@ -1,13 +1,15 @@
 import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
-export class Key {
+class Key {
     @PrimaryGeneratedColumn()
-    public id: number;
+    id: number;
 
     @Column()
-    public userid: string;
+    userid: string;
 
     @Column()
-    public signingkey: string;
+    signingkey: string;
 }
+
+export {Key}

@@ -4,13 +4,13 @@
     "synchronize": true,
     "logging": false,
     "entities": [
-        "src/data/entities/**/*.entity.ts"
+        "prod/data/entities/**/*.entity.js"
     ],
     "migrations": [
-        "src/data/migrations/**/*.ts"
+        "src/data/migrations/**/*.js"
     ],
     "subscribers": [
-        "src/data/subscribers/**/*.subscriber.ts"
+        "prod/data/subscribers/**/*.subscriber.js"
     ],
     "cli": {
         "entitiesDir": "src/data/entities",
