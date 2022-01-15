@@ -25,7 +25,6 @@ client.on('ready', async () => {
     });
     // @ts-ignore
     const cmds = await client.api.applications(client.user.id).commands().get();
-    console.log(cmds);
     commands.forEach(command => {
         // @ts-ignore
         client.api.applications(client.user.id).commands.post({data: command});

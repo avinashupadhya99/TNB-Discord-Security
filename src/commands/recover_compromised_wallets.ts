@@ -12,7 +12,6 @@ export class RecoverCompromisedWallets {
         const userId: string = interaction?.user?.id ?? interaction?.member?.user?.id;
         const channel = await client.channels.cache.get(interaction.channel_id);
             if(!channel) {
-                console.log(interaction);
                 // @ts-ignore
                 client.api.interactions(interaction.id, interaction.token).callback.post({data: {
                     type: 4,
