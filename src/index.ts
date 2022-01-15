@@ -39,7 +39,7 @@ client.on('message', async (message) => {
             const newSigningKey = await checkSigningKey(match[0]);
             if(newSigningKey) {
                 let reply: string = `
-**Signing Key exposed**
+:bangbang: **Signing Key exposed**
 
 A certain signing key was exposed in this message. **One should not be sharing their signing key with anyone**. Please **check your DM** for further details`;
                 try{
@@ -52,7 +52,7 @@ Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps o
                 catch(err) {
                     console.log(err);
                     reply = `
-**Signing Key exposed**
+:bangbang: **Signing Key exposed**
                     
 A certain signing key was exposed in this message. **One should not be sharing their signing key with anyone**. We could not reach you through your DM for providing your new signing key. Please enable DMs and use \`/recover_compromised_wallets\` to recover your account`
                     // Store in database
