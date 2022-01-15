@@ -22,9 +22,9 @@ export const checkSigningKey = async (key: string): Promise<string> => {
             });
         }
     }
-    // Reject if balance is not sufficient
+    // Reject if there is no balance i.e, possibility of an account number
     return new Promise<string>((resolve, reject) => {
-        reject();
+        reject("No balance, can be an account number");
     });
 }
 
