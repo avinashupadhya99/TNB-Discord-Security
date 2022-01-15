@@ -68,7 +68,11 @@ A certain signing key was exposed in this message. **One should not be sharing t
             }
         } catch(exception) {
             console.error(exception);
-            // Do nothing
+            const reply: string = `
+:warning: **Potential key detected**
+                    
+Please do not paste your signing keys in public. Ignore the message if an account number was pasted.`
+                message.reply(reply);
         }
         pattern.lastIndex = match.index + 1;
         match = pattern.exec(message.content);
