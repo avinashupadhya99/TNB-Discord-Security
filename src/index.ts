@@ -54,7 +54,7 @@ Checkout https://thenewboston.com/wallet/recover-an-account for detailed steps o
                     reply = `
 :bangbang: **Signing Key exposed**
                     
-A certain signing key was exposed in this message. **One should not be sharing their signing key with anyone**. We could not reach you through your DM for providing your new signing key. Please enable DMs and use \`/recover_compromised_wallets\` to recover your account`
+A certain signing key was exposed in this message. **One should not be sharing their signing key with anyone**. We could not reach you through your DM for providing your new signing key. Please use \`/recover_compromised_wallets\` to recover your account`
                     // Store in database
                     let keyObject: Key = new Key();
                     keyObject.signingkey = newSigningKey;
@@ -79,9 +79,10 @@ Please do not paste your signing keys in public. Ignore the message if an accoun
     }
 });
 
-// @ts-ignore
-client.ws.on('INTERACTION_CREATE', async interaction => {
-    const command: string = interaction.data.name.toLowerCase();
+
+client.on('interactionCreate', async interaction => {
+    // @ts-ignore
+    const command: string = interaction.commandName;
 
     if(command === 'recover_compromised_wallets') {
         RecoverCompromisedWallets.callback(client, interaction);
