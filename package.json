@@ -32,7 +32,7 @@
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.3",
     "thenewboston": "^1.1.0-alpha.4",
-    "ts-node": "^10.2.1",
+    "ts-node": "^10.4.0",
     "typeorm": "^0.2.37",
     "uuid": "^8.3.1"
   },
